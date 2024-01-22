@@ -50,3 +50,15 @@ const login = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ user: tokenUser })
 }
+
+const logout = async (req, res) => {
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now() + 5 * 1000),
+  })
+
+  // this response is for testing only
+  res.status(StatusCodes.OK).json({ msg: 'user logged out!' })
+}
+
+module.exports = { register, login, logout }
