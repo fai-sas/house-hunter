@@ -1,6 +1,13 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+
 //express
 const express = require('express')
 const app = express()
+
+//rest of the packages
+const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
 
 const port = process.env.PORT || 5001
 
