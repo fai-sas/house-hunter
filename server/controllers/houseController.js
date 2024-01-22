@@ -13,3 +13,16 @@ const createHouse = async (req, res) => {
 
   res.status(StatusCodes.CREATED).json({ house })
 }
+
+const getAllHouse = async (req, res) => {}
+const getSingleHouse = async (req, res) => {}
+const updateHouse = async (req, res) => {}
+const deleteHouse = async (req, res) => {}
+
+module.exports = {
+  createHouse,
+  getAllHouse,
+  getSingleHouse,
+  updateHouse,
+  deleteHouse,
+}
