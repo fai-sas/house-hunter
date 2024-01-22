@@ -1,6 +1,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 
+require('dotenv').config()
+require('express-async-errors')
+
 //express
 const express = require('express')
 const app = express()
@@ -9,12 +12,22 @@ const app = express()
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 
+//database
+const connectDB = require('./db/connect')
+
 const port = process.env.PORT || 5001
 
 app.get('/', (req, res) => {
   res.send('house hunter is running...')
 })
 
-app.listen(port, () => {
-  console.log(`house hunter is listening to port ${port}`)
-})
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URL)
+    app.listen(port, console.log(`Server is listening on port ${port}...`))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+start()
