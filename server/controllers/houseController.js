@@ -14,9 +14,91 @@ const createHouse = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ house })
 }
 
+// city, bedrooms, bathrooms, room size, availability,  rent per month
+
 const getAllHouse = async (req, res) => {
-  const houses = await House.find({})
-  res.status(StatusCodes.OK).json({ count: houses.length, houses })
+  try {
+    const {
+      search,
+      city,
+      bedrooms,
+      bathrooms,
+      roomSize,
+      availabilityDate,
+      rentPerMonth,
+      sort,
+    } = req.query
+
+    const queryObject = {}
+
+    if (search) {
+      queryObject.$or = [{ city: { $regex: search, $options: 'i' } }]
+    }
+
+    if (city) {
+      queryObject.city = city
+    }
+
+    if (bedrooms) {
+      queryObject.bedrooms = Number(bedrooms)
+    }
+
+    if (bathrooms) {
+      queryObject.bathrooms = Number(bathrooms)
+    }
+
+    if (roomSize) {
+      queryObject.roomSize = roomSize
+    }
+
+    if (availabilityDate) {
+      queryObject.availabilityDate = { $gte: new Date(availabilityDate) }
+    }
+
+    if (rentPerMonth) {
+      const [minRent, maxRent] = rentPerMonth.split('-').map(Number)
+      queryObject.rentPerMonth = { $gte: minRent, $lte: maxRent }
+    }
+
+    const sortOptions = {
+      newest: '-createdAt',
+      oldest: 'createdAt',
+      'a-z': 'rentPerMonth',
+      'z-a': '-rentPerMonth',
+    }
+
+    const sortKey = sortOptions[sort] || sortOptions.newest
+
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
+    const skip = (page - 1) * limit
+
+    const houses = await House.find(queryObject)
+      .sort(sortKey)
+      .skip(skip)
+      .limit(limit)
+
+    if (houses.length === 0) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: 'No houses found based on the query.' })
+    }
+
+    const totalHouse = await House.countDocuments(queryObject)
+    const numOfPages = Math.ceil(totalHouse / limit)
+
+    res.status(StatusCodes.OK).json({
+      totalHouse,
+      numOfPages,
+      currentPage: page,
+      houses,
+    })
+  } catch (error) {
+    console.error(error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: 'Internal Server Error' })
+  }
 }
 
 const getSingleHouse = async (req, res) => {
@@ -49,13 +131,13 @@ const updateHouse = async (req, res) => {
 const deleteHouse = async (req, res) => {
   const { id: houseId } = req.params
 
-  const house = await Product.findOne({ _id: houseId })
+  const house = await House.findOne({ _id: houseId })
 
   if (!house) {
     throw new CustomError.NotFoundError(`No house with id : ${houseId}`)
   }
 
-  await product.remove()
+  await house.remove()
 
   res.status(StatusCodes.OK).json({ msg: ' Success! House Removed' })
 }
