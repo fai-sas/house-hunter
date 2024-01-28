@@ -7,13 +7,13 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
     // baseUrl: 'http://localhost:5001/api/v1',
-    // prepareHeaders: async (headers, { getState, endpoint }) => {
-    //   const token = getState()?.auth?.accessToken
-    //   if (token) {
-    //     headers.set('Authorization', `Bearer ${token}`)
-    //   }
-    //   return headers
-    // },
+    prepareHeaders: async (headers, { getState, endpoint }) => {
+      const token = getState()?.auth?.accessToken
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`)
+      }
+      return headers
+    },
   }),
   tagTypes: [],
   endpoints: (builder) => ({}),
