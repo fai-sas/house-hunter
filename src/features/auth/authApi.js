@@ -18,14 +18,14 @@ export const authApi = apiSlice.injectEndpoints({
           localStorage.setItem(
             'auth',
             JSON.stringify({
-              accessToken: result.data.accessToken,
+              token: result.data.token,
               user: result.data.user,
             })
           )
 
           dispatch(
             userLoggedIn({
-              accessToken: result.data.accessToken,
+              token: result.data.token,
               user: result.data.user,
             })
           )
@@ -48,14 +48,14 @@ export const authApi = apiSlice.injectEndpoints({
           localStorage.setItem(
             'auth',
             JSON.stringify({
-              accessToken: result.data.accessToken,
+              token: result.data.token,
               user: result.data.user,
             })
           )
 
           dispatch(
             userLoggedIn({
-              accessToken: result.data.accessToken,
+              token: result.data.token,
               user: result.data.user,
             })
           )

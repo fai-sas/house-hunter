@@ -39,8 +39,8 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['house owner', 'house renter'],
-    default: 'house renter',
+    enum: ['owner', 'renter'],
+    default: 'renter',
   },
 })
 

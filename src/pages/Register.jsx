@@ -43,11 +43,12 @@ const Register = () => {
 
   useEffect(() => {
     if (responseError?.data) {
-      alert(responseError.data)
+      alert(responseError.data.msg)
     }
-    if (data?.accessToken && data?.user) {
+    if (data?.token && data?.user) {
       alert('user registered')
     }
+    console.log(data)
   }, [data, responseError])
 
   return (
@@ -252,7 +253,10 @@ const Register = () => {
             </article>
             {/* end of row 4 */}
 
-            <button className='w-full px-4 py-2 font-medium text-white duration-150 bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-600'>
+            <button
+              disabled={isLoading}
+              className='w-full px-4 py-2 font-medium text-white duration-150 bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-600'
+            >
               Create account
             </button>
           </form>
