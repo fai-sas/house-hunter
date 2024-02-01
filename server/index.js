@@ -9,12 +9,14 @@ const cors = require('cors')
 const express = require('express')
 const app = express()
 
-app.use(
-  cors({
-    origin: ['http://localhost:5173'],
-    credentials: true,
-  })
-)
+const fileUpload = require('express-fileupload')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+})
 
 //rest of the packages
 const morgan = require('morgan')
@@ -32,8 +34,20 @@ const HouseRouter = require('./routes/houseRoute')
 const notFoundMiddleware = require('./middlewares/not-found')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
 
+app.use(express.static('./public'))
 app.use(morgan('tiny'))
 app.use(express.json())
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+)
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    credentials: true,
+  })
+)
 app.use(cookieParser(process.env.JWT_SECRET))
 
 app.use('/api/v1/auth', authRouter)

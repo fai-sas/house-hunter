@@ -2,7 +2,6 @@
 /* eslint-disable no-undef */
 
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 const HouseSchema = new mongoose.Schema(
   {
@@ -30,9 +29,9 @@ const HouseSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide the room size'],
     },
-    picture: {
+    image: {
       type: String,
-      required: [true, 'Please provide a picture URL or file path'],
+      required: [true, 'Please provide a image URL or file path'],
     },
     availabilityDate: {
       type: Date,
@@ -60,7 +59,7 @@ const HouseSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
-      required: true,
+      // required: true,
     },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }

@@ -1,3 +1,4 @@
+import FileUploadForm from '../components/FileUploadForm'
 import Houses from '../components/Houses'
 
 const HomePage = () => {
@@ -5,6 +6,7 @@ const HomePage = () => {
     <>
       <h1 className='text-4xl font-bold '>HomePage</h1>
       <Houses />
+      <FileUploadForm />
     </>
   )
 }

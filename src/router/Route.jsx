@@ -6,6 +6,7 @@ import HomePage from '../pages/HomePage'
 import SingleHouse from '../pages/SingleHouse'
 import Register from '../pages/Register'
 import Login from '../pages/Login'
+import AddHouse from '../pages/AddHouse'
 
 const Route = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const Route = createBrowserRouter([
       {
         path: '/singleHouse/:id',
         element: <SingleHouse />,
+      },
+      {
+        path: '/add-product',
+        element: <AddHouse />,
       },
     ],
   },

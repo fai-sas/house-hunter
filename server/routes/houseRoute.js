@@ -7,6 +7,7 @@ const {
   authenticateUser,
   authorizePermissions,
 } = require('../middlewares/authentication')
+const { uploadProductImage } = require('../controllers/uploadsController')
 
 const {
   createHouse,
@@ -17,15 +18,12 @@ const {
   uploadImage,
 } = require('../controllers/houseController')
 
-router
-  .route('/')
-  .post([authenticateUser, authorizePermissions('house owner')], createHouse)
-  .get(getAllHouse)
+router.route('/').post(createHouse).get(getAllHouse)
+// .post([authenticateUser, authorizePermissions('house owner')], createHouse)
 
 // upload image router should be before router based on IDs
-router
-  .route('/uploadImage')
-  .post([authenticateUser, authorizePermissions('house owner')], uploadImage)
+router.route('/uploads').post(uploadProductImage)
+// .post([authenticateUser, authorizePermissions('house owner')], uploadImage)
 
 router
   .route('/:id')

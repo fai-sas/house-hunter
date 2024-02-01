@@ -17,6 +17,13 @@ export const housesApi = apiSlice.injectEndpoints({
         return url
       },
     }),
+    addHouse: builder.mutation({
+      query: (data) => ({
+        url: '/house',
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 })
 
@@ -30,4 +37,4 @@ export const housesApi = apiSlice.injectEndpoints({
 //   return queryString ? `?${queryString.slice(1)}` : ''
 // }
 
-export const { useGetHousesQuery } = housesApi
+export const { useGetHousesQuery, useAddHouseMutation } = housesApi

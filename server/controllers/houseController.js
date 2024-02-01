@@ -7,7 +7,7 @@ const CustomError = require('../errors')
 const path = require('path')
 
 const createHouse = async (req, res) => {
-  req.body.createdBy = req.user.userId
+  // req.body.createdBy = req.user.userId
 
   const house = await House.create(req.body)
 
